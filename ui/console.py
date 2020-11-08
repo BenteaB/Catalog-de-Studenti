@@ -1,7 +1,7 @@
 from domain.entities import Student
 from errors.exceptions import ValidationException,RepoException
 
-class UI:
+class uiStudent:
 
     def __ui_add_student(self):
         idStudent = int(input('Introduceti id student: '))
