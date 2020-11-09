@@ -1,8 +1,9 @@
+from typing import Collection
 from controllere.controller import ControllerStud,ControllerDisc
 from infrastructure.repository import RepositoryStud,RepositoryDisc
 from validation.validators import ValidatorStud,ValidatorDisc
 from testing.tests import Tests
-from ui.console import uiStudent
+from ui.console import uiMain, uiStudent, uiDisciplina
 
 if __name__ == '__main__':
     tests = Tests()
@@ -15,5 +16,5 @@ if __name__ == '__main__':
     repo_discipline = RepositoryDisc()
     controller_discipline = ControllerDisc(repo_discipline,valid_discipline)
 
-    console = uiStudent(controller_studenti)
-    console.run()
+    consoleMain = uiMain(controller_studenti,controller_discipline)
+    consoleMain.run()
