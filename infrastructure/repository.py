@@ -6,14 +6,27 @@ class RepositoryStud:
         self.__elems = []
 
     def __len__(self):
+        """
+        Returneaza numarul de studenti din repository (numar natural)
+        """
         return len(self.__elems)
 
     def store(self,student):
+        """
+        Retine studentii 
+        student - obiect de tip student
+        ridica o exceptie in cazul in care elementul deja exista
+        """
         if student in self.__elems:
             raise RepoException('element deja existent!')
         self.__elems.append(student)
 
     def search(self,key_student):
+        """
+        Cauta un element in repository
+        key_student - obiect de tip student
+        returneaza un obiect de tip student
+        """
         if key_student not in self.__elems:
             raise RepoException('element inexistent!')
         for elem in self.__elems:
@@ -21,6 +34,10 @@ class RepositoryStud:
                 return elem
 
     def update(self,student):
+        """
+        Actualizeaza un student din repository
+        student - obiect de tip student
+        """
         if student not in self.__elems:
             raise RepoException('element inexistent!')
         for i in range(len(self.__elems)):
@@ -29,6 +46,10 @@ class RepositoryStud:
                 return 
 
     def remove(self,key_stud):
+        """
+        Sterge din repository
+        key_stud - obiect de tip student
+        """
         if key_stud not in self.__elems:
             raise RepoException('element inexistent!')
         for i in range(len(self.__elems)):
