@@ -100,7 +100,7 @@ class uiDisciplina:
     def __ui_cauta_disciplina(self):
         idDisciplina = int(input('Introduceti id-ul disciplinei pe care doriti sa o cautati: '))
         key_disc = Disciplina(idDisciplina,'','')
-        result_disciplina = self.__controller_disciplina.search(key_disc)
+        result_disciplina = self.__controller_disciplina.cauta_disciplina(key_disc)
         print("Disciplina cautata este: ",result_disciplina)
     
     def __ui_modifica_disciplina(self):
