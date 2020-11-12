@@ -48,7 +48,7 @@ class uiStudent:
             '• del_student => Sterge un student din catalog',
             '• cauta_student => Cauta un student dupa id-ul lui',
             '• modifica_student => Modifica numele corespunzator unui student',
-            '• print_student => Afiseaza toti studenti',
+            '• print_studenti => Afiseaza toti studenti',
             '• exit => Inchide sub-meniul'
         ]
 
