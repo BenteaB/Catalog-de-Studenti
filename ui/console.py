@@ -4,11 +4,17 @@ from errors.exceptions import ValidationException,RepoException
 class uiStudent:
 
     def __ui_add_student(self):
+        """
+        Citirea de la consola a datelor pentru adaugarea de student
+        """
         idStudent = int(input('Introduceti id student: '))
         nume = input('Introduceti nume student: ')
         self.__controller_studenti.add_student(idStudent,nume)
 
     def __ui_print_studenti(self):
+        """
+        Afiseaza toti studentii
+        """
         studenti = self.__controller_studenti.get_studenti()
         if len(studenti) == 0:
             print('Nu exista studenti in catalog!')
@@ -17,18 +23,27 @@ class uiStudent:
             print(student)
 
     def __ui_del_student(self):
+        """
+        Citirea de la consola a datelor pentru stergerea unui student
+        """
         idStudent = int(input('Introduceti id-ul studentului pe care doriti sa il stergeti: '))
         key_stud = Student(idStudent,'')
         self.__controller_studenti.del_student(key_stud)
         print('Studentul a fost sters din catalog!')
 
     def __ui_cauta_student(self):
+        """
+        Citirea de la consola a datelor pentru cautarea unui student
+        """
         idStudent = int(input('Introduceti id-ul studentului pe care doriti sa il cautati: '))
         key_stud = Student(idStudent,'')
         result_student = self.__controller_studenti.cauta_student(key_stud)
         print("Studentul cautat este: ",result_student)
 
     def __ui_modifica_student(self):
+        """
+        Citirea de la consola a datelor pentru modificarea unui student
+        """
         idStudent = int(input("Introduceti id-ul studentului caruia doriti sa ii modificati numele: "))
         nume = input("Introduceti numele nou al studentului: ")
         student = Student(idStudent,nume)
@@ -78,12 +93,18 @@ class uiStudent:
 class uiDisciplina:
     
     def __ui_add_disciplina(self):
+        """
+        Citirea de la consola a datelor pentru adaugarea unei discipline
+        """
         idDisciplina = int(input('Introduceti id disciplina: '))
         nume = input('Introduceti numele disciplinei: ')
         profesor = input('Introduceti numele profesorului: ')
         self.__controller_disciplina.add_disciplina(idDisciplina,nume,profesor)
 
     def __ui_print_discipline(self):
+        """
+        Afisarea tuturor disciplinelor
+        """
         discipline = self.__controller_disciplina.get_discipline()
         if len(discipline) == 0:
             print('Nu exista discipline in catalog')
@@ -92,18 +113,27 @@ class uiDisciplina:
             print(disciplina)
 
     def __ui_del_disciplina(self):
+        """
+        Citirea de la consola a datelor pentru stergerea unei discipline
+        """
         idDisciplina = int(input('Introduceti id-ul disciplinei pe care doriti sa o stergeti: '))
         key_disc = Disciplina(idDisciplina,'','')
         self.__controller_disciplina.del_disciplina(key_disc)
         print('Disciplina a fost stearsa din catalog!')
     
     def __ui_cauta_disciplina(self):
+        """
+        Citirea de la consola a datelor pentru cautarea unei discipline
+        """
         idDisciplina = int(input('Introduceti id-ul disciplinei pe care doriti sa o cautati: '))
         key_disc = Disciplina(idDisciplina,'','')
         result_disciplina = self.__controller_disciplina.cauta_disciplina(key_disc)
         print("Disciplina cautata este: ",result_disciplina)
     
     def __ui_modifica_disciplina(self):
+        """
+        Citirea de la consola a datelor pentru modificarea unei discipline
+        """
         idDisciplina = int(input('Introduceti id-ul disciplinei pe care doriti sa o modificati: '))
         nume = input('Introduceti numele nou al disciplinei: ')
         profesor = input('Introduceti numele nou al profesorului: ')

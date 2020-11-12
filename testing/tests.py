@@ -7,6 +7,9 @@ from controllere.controller import ControllerStud,ControllerDisc
 class Tests:
     
     def __run_domain_tests(self):
+        """
+        Functie de test pentru entitati
+        """
         #STUDENT
         IDStudent = 24
         nume1 = 'nume1'
@@ -32,6 +35,9 @@ class Tests:
         assert disciplina1 == disciplina2
 
     def __run_validation_tests(self):
+        """
+        Functie de test pentru validari
+        """
         #STUDENT
         student = Student(-23,"")
         validator_Stud = ValidatorStud()
@@ -57,6 +63,9 @@ class Tests:
         assert True
 
     def __run_repository_student_tests(self):
+        """
+        Functie de test pentru repository-ul de studenti
+        """
         student = Student(34,'bogdan')
         repo_studenti = RepositoryStud()
         assert len(repo_studenti) == 0
@@ -95,6 +104,9 @@ class Tests:
             assert str(re) == 'element inexistent!'
 
     def __run_controller_student_tests(self):
+        """
+        Functie de test pentru controller-ul de studenti
+        """
         #add_student
         repo_studenti = RepositoryStud()
         validator_studenti = ValidatorStud()
@@ -159,6 +171,9 @@ class Tests:
             assert str(re) == 'element inexistent!'
 
     def __run_repository_disciplina_tests(self):
+        """
+        Functie de test pentru repository-ul de discipline
+        """
         disciplina = Disciplina(11,'matematica','prof1')
         repo_discipline = RepositoryDisc()
         assert len(repo_discipline) == 0
@@ -198,6 +213,9 @@ class Tests:
             assert str(re) == 'element inexistent!'
 
     def __run_controller_disciplina_tests(self):
+        """
+        Functie de test pentru controller-ul de discipline
+        """
         #add_disciplina
         repo_discipline = RepositoryDisc()
         validator_discipline = ValidatorDisc()
@@ -264,6 +282,9 @@ class Tests:
             assert str(re) == 'element inexistent!'
 
     def run_all_tests(self):
+        """
+        Functie ce apeleaza toate functiile de test
+        """
         self.__run_domain_tests()
         self.__run_validation_tests()
         self.__run_repository_student_tests()

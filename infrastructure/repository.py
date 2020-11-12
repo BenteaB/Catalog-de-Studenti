@@ -66,14 +66,27 @@ class RepositoryDisc:
         self.__elems = []
 
     def __len__(self):
+        """
+        Returneaza numarul de discipline din repository (numar natural)
+        """
         return len(self.__elems)
 
     def store(self,disciplina):
+        """
+        Retine disciplinele 
+        disciplina - obiect de tip disciplina
+        ridica o exceptie in cazul in care elementul deja exista
+        """
         if disciplina in self.__elems:
             raise RepoException('element deja existent!')
         self.__elems.append(disciplina)
 
     def search(self,key_disc):
+        """
+        Cauta un element in repository
+        key_disc - obiect de tip disciplina
+        returneaza un obiect de tip disciplina
+        """
         if key_disc not in self.__elems:
             raise RepoException('element inexistent!')
         for disciplina in self.__elems:
@@ -81,6 +94,10 @@ class RepositoryDisc:
                 return disciplina
 
     def update(self,disciplina):
+        """
+        Actualizeaza o disciplina din repository
+        disciplina - obiect de tip disciplina
+        """
         if disciplina not in self.__elems:
             raise RepoException('element inexistent!')
         for i in range(len(self.__elems)):
@@ -89,6 +106,10 @@ class RepositoryDisc:
                 return
     
     def remove(self,key_disc):
+        """
+        Sterge din repository
+        key_disc - obiect de tip disciplina
+        """
         if key_disc not in self.__elems:
             raise RepoException('element inexistent!')
         for i in range(len(self.__elems)):
