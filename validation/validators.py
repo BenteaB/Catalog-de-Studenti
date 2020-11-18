@@ -1,4 +1,5 @@
-from errors.exceptions import ValidationException
+from errors.exceptions import RepoException, ValidationException
+from domain.entities import Student,Disciplina
 
 class ValidatorStud:
 
@@ -34,7 +35,7 @@ class ValidatorDisc:
 
 class ValidatorNota:
 
-    def valideaza(self,nota):
+    def valideaza(self,nota,repo_studenti,repo_discipline):
         """
         Valideaza o nota
         Ridica o exceptie in cazul in care nota nu este valida
@@ -42,11 +43,29 @@ class ValidatorNota:
         errors = ''
         if nota.get_idNota() < 0 :
             errors += 'id invalid!\n'
-        if nota.get_idStudent() < 0:
+
+        idStudent = nota.get_idStudent()
+        student = Student(idStudent,'')
+        try:
+            result_stud = repo_studenti.search(student)
+            gasit_stud = True
+        except RepoException:
+            gasit_stud = False
+        if nota.get_idStudent() < 0 or gasit_stud == False:
             errors += 'id student invalid!\n'
-        if nota.get_idDisciplina() < 0:
+        
+        idDisciplina = nota.get_idDisciplina()
+        disciplina = Disciplina(idDisciplina,'','')
+        try:
+            result_disc = repo_discipline.search(disciplina)
+            gasit_disc = True
+        except RepoException:
+            gasit_disc = False
+        if nota.get_idDisciplina() < 0 or gasit_disc == False:
             errors += 'id disciplina invalid!\n'
+        
         if nota.get_punctaj() < 1 or nota.get_punctaj()>10:
             errors += 'punctaj invalid!\n'
+        
         if len(errors) > 0:
             raise ValidationException(errors)
