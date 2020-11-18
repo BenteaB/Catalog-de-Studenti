@@ -119,3 +119,63 @@ class RepositoryDisc:
     
     def get_all(self):
         return self.__elems[:]
+
+class RepositoryNote:
+    
+    def __init__(self):
+        self.__elems = []
+
+    def __len__(self):
+        """
+        Returneaza numarul de note din repository (numar natural)
+        """
+        return len(self.__elems)
+
+    def store(self,nota):
+        """
+        Retine notele
+        nota - obiect de tip nota
+        ridica o exceptie in cazul in care elementul deja exista
+        """
+        if nota in self.__elems:
+            raise RepoException('element deja existent!')
+        self.__elems.append(nota)
+
+    def search(self,key_nota):
+        """
+        Cauta un element in repository
+        key_nota - obiect de tip nota
+        returneaza un obiect de tip nota
+        """
+        if key_nota not in self.__elems:
+            raise RepoException('element inexistent!')
+        for nota in self.__elems:
+            if key_nota == nota:
+                return nota
+    
+    def update(self,nota):
+        """
+        Actualizeaza o nota din repository
+        nota - obiect de tip nota
+        """
+        if nota not in self.__elems:
+            raise RepoException('element inexistent!')
+        for i in range(len(self.__elems)):
+            if self.__elems[i] == nota:
+                self.__elems[i] = nota
+                return
+
+    def remove(self,key_nota):
+        """
+        Sterge din repository:
+        key_nota - obicet de tip nota
+        """
+        if key_nota not in self.__elems:
+            raise RepoException('element inexistent!')
+        for i in range(len(self.__elems)):
+            if self.__elems[i] == key_nota:
+                del self.__elems[i]
+                return
+
+    def get_all(self):
+        return self.__elems[:]

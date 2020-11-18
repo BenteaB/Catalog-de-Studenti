@@ -1,4 +1,4 @@
-from domain.entities import Disciplina, Student
+from domain.entities import Disciplina, Student, Nota
 
 class ControllerStud:
     
@@ -97,3 +97,33 @@ class ControllerDisc:
 
     def get_nr_discipline(self):
         return len(self.__repo_discipline)
+
+class ControllerNote:
+
+    def __init__(self,repo_note,validator_note,repo_studenti,repo_discipline):
+        self.__repo_note = repo_note
+        self.__valid_note = validator_note
+        self.__repo_studenti = repo_studenti
+        self.__repo_discipline = repo_discipline
+
+    def add_nota(self,idNota,idStudent,idDisciplina,punctaj):
+        nota = Nota(idNota,idStudent,idDisciplina,punctaj)
+        self.__valid_note.valideaza(nota)
+        self.__repo_note.store(nota)
+    
+    def del_nota(self,key_nota):
+        self.__repo_note.remove(key_nota)
+
+    def cauta_nota(self,key_nota):
+        return self.__repo_note.search(key_nota)
+
+    def modifica_nota(self,nota):
+        self.__valid_note.valideaza(nota)
+        self.__repo_note.update(nota)
+
+    def get_note(self):
+        return self.__repo_note.get_all()
+
+    def get_nr_note(self):
+        return len(self.__repo_note)
+

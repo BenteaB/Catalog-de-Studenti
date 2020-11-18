@@ -27,6 +27,7 @@ class Student:
     def __eq__(self,other):
         """
         Verifica daca doi studenti sunt egale (au acelasi id)
+        other - obiect de tip student
         """
         return self.__idStudent == other.__idStudent
 
@@ -66,6 +67,53 @@ class Disciplina:
     def __eq__(self,other):
         """
         Verifica daca doua discipline sunt egale (au acelasi id)
+        other - obicet de tip disciplina
         """
         return self.__idDisciplina == other.__idDisciplina
 
+class Nota:
+
+    def __init__(self,idNota,idStudent,idDisciplina,punctaj):
+        """
+        Creeaza un obiect de tip nota
+        idNota,idStudent,idDisciplina - numar natural
+        punctaj - numar rational
+        """
+        self.__idNota = idNota
+        self.__idStudent = idStudent
+        self.__idDisciplina = idDisciplina
+        self.__punctaj = punctaj
+
+    def get_idNota(self):
+        return self.__idNota
+
+    def get_idStudent(self):
+        return self.__idStudent
+
+    def get_idDisciplina(self):
+        return self.__idDisciplina
+
+    def get_punctaj(self):
+        return self.__punctaj
+
+    def set_punctaj(self,value):
+        self.__punctaj = value
+
+    def set_idStudent(self,value):
+        self.__idStudent = value
+
+    def set_idDisciplina(self,value):
+        self.__idDisciplina = value
+
+    def __str__(self):
+        """
+        Returneaza un string ce contine toate detaliile unei note
+        """
+        return str(self.__idNota)+' '+str(self.__idStudent)+' '+str(self.__idDisciplina)+' '+str(self.__punctaj)
+
+    def __eq__(self,other):
+        """
+        Verifica daca doua note sunt egale (au acelasi id)
+        other - obicet de tip nota
+        """
+        return self.__idNota == other.__idNota
