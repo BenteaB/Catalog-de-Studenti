@@ -1,4 +1,4 @@
-from domain.entities import Disciplina, Student
+from domain.entities import Disciplina, Student, Nota
 from errors.exceptions import ValidationException,RepoException
 
 class uiStudent:
@@ -181,18 +181,100 @@ class uiDisciplina:
             else:
                 print('Comanda invalida!')
 
+class uiCatalog:
+
+    def __init__(self,controller_note):
+        self.__controller_note = controller_note
+        self.__comenzi = {
+            "add_nota":self.__ui_add_nota,
+            "print_note":self.__ui_print_note,
+            "del_nota":self.__ui_del_nota,
+            "cauta_nota":self.__ui_cauta_nota,
+            "modifica_nota":self.__ui_modifica_nota
+        }
+        self.__meniu = [
+            '• add_nota => Adauga o nota in catalog',
+            '• del_nota => Sterge o nota din catalog',
+            '• cauta_nota => Cauta o nota dupa id-ul ei',
+            '• modifica_nota => Modifica punctajul corespunzator unei note',
+            '• print_note => Afiseaza toate notele',
+            '• exit => Inchide sub-meniul'
+        ]
+
+    def __ui_add_nota(self):
+        idNota = int(input("Introduceti id nota: "))
+        idStudent = int(input("Introduceti id student: "))
+        idDisciplina = int(input("Introduceti id disciplina: "))
+        punctaj = float(input("Introduceti punctajul: "))
+        self.__controller_note.add_nota(idNota,idStudent,idDisciplina,punctaj)
+
+    def __ui_print_note(self):
+        note = self.__controller_note.get_note()
+        if len(note) == 0:
+            print('Nu exista note in catalog!')
+            return
+        for nota in note:
+            print(nota)
+
+    def __ui_del_nota(self):
+        idNota = int(input('Introduceti id-ul notei pe care doriti sa o stergeti: '))
+        key_nota = Nota(idNota,0,0,0)
+        self.__controller_note.del_nota(key_nota)
+        print('Nota a fost stearsa din catalog!')
+
+    def __ui_cauta_nota(self):
+        idNota = int(input('Introduceti id-ul notei pe care doriti sa o cautati: '))
+        key_nota = Nota(idNota,0,0,0)
+        result_nota = self.__controller_note.cauta_nota(key_nota)
+        print('Nota cautata este: ',result_nota)
+    
+    def __ui_modifica_nota(self):
+        idNota = int(input('Introduceti id-ul notei careia doriti sa ii modificati punctajul: '))
+        punctaj = float(input('Introduceti noul punctaj: '))
+        nota = Nota(idNota,0,0,punctaj)
+        result_nota = self.__controller_note.cauta_nota(nota)
+        nota.set_idStudent(result_nota.get_idStudent())
+        nota.set_idDisciplina(result_nota.get_idDisciplina())
+        self.__controller_note.modifica_nota(nota)
+
+    def run(self):
+        while True:
+            print("\n******** Catalog ********")
+            for op in self.__meniu:
+                print(op)
+            print('***************************')
+
+            cmd = input("\nDati comanda: ")
+            if cmd == 'exit':
+                print('\nSe va iesi din sub-meniu!\n')
+                return
+            if cmd in self.__comenzi:
+                try:
+                    self.__comenzi[cmd]()
+                except ValueError:
+                    print('Valoare numerica invalida!')
+                except ValidationException as ve:
+                    print(ve)
+                except RepoException as re:
+                    print(re)
+            else:
+                print('Comanda invalida!')
+
 class uiMain:
 
-    def __init__(self,controller_studenti,controller_discipline):
+    def __init__(self,controller_studenti,controller_discipline,controller_note):
         self.__ui_student = uiStudent(controller_studenti)
         self.__ui_disciplina = uiDisciplina(controller_discipline)
+        self.__ui_catalog = uiCatalog(controller_note)
         self.__comenzi = {
             '1':self.__ui_student.run,
-            '2':self.__ui_disciplina.run
+            '2':self.__ui_disciplina.run,
+            '3':self.__ui_catalog.run
         }
         self.__meniu = [
             '1. Meniu Studenti',
             '2. Meniu Discipline',
+            '3. Meniu Catalog',
             'exit. Inchide Aplicatia'
         ]
 
