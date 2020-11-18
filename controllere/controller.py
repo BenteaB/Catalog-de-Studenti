@@ -108,9 +108,9 @@ class ControllerNote:
 
     def add_nota(self,idNota,idStudent,idDisciplina,punctaj):
         nota = Nota(idNota,idStudent,idDisciplina,punctaj)
-        self.__valid_note.valideaza(nota)
+        self.__valid_note.valideaza(nota,self.__repo_studenti,self.__repo_discipline)
         self.__repo_note.store(nota)
-    
+
     def del_nota(self,key_nota):
         self.__repo_note.remove(key_nota)
 
@@ -118,7 +118,7 @@ class ControllerNote:
         return self.__repo_note.search(key_nota)
 
     def modifica_nota(self,nota):
-        self.__valid_note.valideaza(nota)
+        self.__valid_note.valideaza(nota,self.__repo_studenti,self.__repo_discipline)
         self.__repo_note.update(nota)
 
     def get_note(self):

@@ -79,15 +79,22 @@ class Tests:
         assert True
 
         #NOTA
+        repo_studenti = RepositoryStud()
+        repo_discipline = RepositoryDisc()
+
         nota = Nota(-1,-25,-28,0.5)
         validator_Nota = ValidatorNota()
         try:
-            validator_Nota.valideaza(nota)
+            validator_Nota.valideaza(nota,repo_studenti,repo_discipline)
             assert False
         except ValidationException as ve:
             assert str(ve) == 'id invalid!\nid student invalid!\nid disciplina invalid!\npunctaj invalid!\n'
         nota2 = Nota(2,12,41,7.3)
-        validator_Nota.valideaza(nota2)
+        student = Student(12,'')
+        disciplina = Disciplina(41,'','')
+        repo_studenti.store(student)
+        repo_discipline.store(disciplina)
+        validator_Nota.valideaza(nota2,repo_studenti,repo_discipline)
         assert True
 
     def __run_repository_student_tests(self):
@@ -358,14 +365,21 @@ class Tests:
         """
         #add_nota
         repo_note = RepositoryNote()
-        validator_note = ValidatorNota()
+        validator_note = ValidatorNota() 
         repo_studenti = RepositoryStud()
         repo_discipline = RepositoryDisc()
         controller_note = ControllerNote(repo_note,validator_note,repo_studenti,repo_discipline)
+
         idNota = 1
         idStudent = 10
         idDisciplina = 15
         punctaj = 8.2
+        
+        student = Student(10,'')
+        disciplina = Disciplina(15,'','')
+        repo_studenti.store(student)
+        repo_discipline.store(disciplina)
+
         controller_note.add_nota(idNota,idStudent,idDisciplina,punctaj)
         assert controller_note.get_nr_note() == 1
         try:
@@ -384,11 +398,24 @@ class Tests:
         idStudent = 1
         idDisciplina = 1
         punctaj = 10
+
+        student = Student(1,'')
+        disciplina = Disciplina(1,'','')
+        repo_studenti.store(student)
+        repo_discipline.store(disciplina)
+
         controller_note.add_nota(idNota,idStudent,idDisciplina,punctaj)
+
         idNota = 6
         idStudent = 2
         idDisciplina = 2
         punctaj = 10
+
+        student = Student(2,'')
+        disciplina = Disciplina(2,'','')
+        repo_studenti.store(student)
+        repo_discipline.store(disciplina)
+
         controller_note.add_nota(idNota,idStudent,idDisciplina,punctaj)
         assert controller_note.get_nr_note() == 3
         key_nota = Nota(5,0,0,0)
@@ -415,7 +442,7 @@ class Tests:
         #modifica_nota
         idNota = 6
         punctaj = 3.5
-        key_nota = Nota(6,0,0,3.5)
+        key_nota = Nota(6,2,2,3.5)
         controller_note.modifica_nota(key_nota)
         key_nota = Nota(6,0,0,0)
         result_nota = controller_note.cauta_nota(key_nota)
