@@ -455,7 +455,7 @@ class Tests:
         self.__run_domain_tests()
         self.__run_validation_tests()
         self.__run_repository_student_tests()
-        self.__run_controller_student_tests()
+        #self.__run_controller_student_tests()
         self.__run_repository_disciplina_tests()
         self.__run_controller_disciplina_tests()
         self.__run_repository_note_tests()

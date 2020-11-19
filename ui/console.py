@@ -49,6 +49,10 @@ class uiStudent:
         student = Student(idStudent,nume)
         self.__controller_studenti.modifica_student(student)
 
+    def __ui_genereaza_studenti(self):
+        nr_studenti = int(input("Introduceti numarul de studenti: "))
+        self.__controller_studenti.genereaza_studenti(nr_studenti)
+
     def __init__(self,controller_studenti):
         self.__controller_studenti = controller_studenti
         self.__comenzi = {
@@ -56,7 +60,8 @@ class uiStudent:
             "print_studenti":self.__ui_print_studenti,
             "del_student":self.__ui_del_student,
             "cauta_student":self.__ui_cauta_student,
-            "modifica_student":self.__ui_modifica_student
+            "modifica_student":self.__ui_modifica_student,
+            "genereaza_studenti":self.__ui_genereaza_studenti
         }
         self.__meniu = [
             '• add_student => Adauga un student in catalog',
@@ -64,6 +69,7 @@ class uiStudent:
             '• cauta_student => Cauta un student dupa id-ul lui',
             '• modifica_student => Modifica numele corespunzator unui student',
             '• print_studenti => Afiseaza toti studenti',
+            '• genereaza_studenti => Afiseaza toti studenti',
             '• exit => Inchide sub-meniul'
         ]
 

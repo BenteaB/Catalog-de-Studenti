@@ -177,5 +177,12 @@ class RepositoryNote:
                 del self.__elems[i]
                 return
 
+    def remove_stud(self,idStudent):
+        for i in range(len(self.__elems)):
+            if self.__elems[i].get_idStudent() == idStudent:
+                del self.__elems[i]
+                return
+        raise RepoException('element inexistent!')
+
     def get_all(self):
         return self.__elems[:]

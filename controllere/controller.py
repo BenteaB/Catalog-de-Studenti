@@ -1,8 +1,10 @@
+import random
+import string
 from domain.entities import Disciplina, Student, Nota
 
 class ControllerStud:
     
-    def __init__(self,repo_studenti,validator_studenti):
+    def __init__(self,repo_studenti,validator_studenti,repo_note):
         """
         Initializeaza controllerul de studenti
         repo_studenti - obiect ce retine studentii
@@ -10,6 +12,7 @@ class ControllerStud:
         """
         self.__repo_studenti = repo_studenti
         self.__valid_studenti = validator_studenti
+        self.__repo_note = repo_note
     
     def add_student(self,idStudent,nume):
         """
@@ -27,6 +30,8 @@ class ControllerStud:
         key_stud - obiect de tip student
         """
         self.__repo_studenti.remove(key_stud)
+        idStudent = key_stud.get_idStudent()
+        self.__repo_note.remove_stud(idStudent)
 
     def cauta_student(self,key_stud):
         """
@@ -48,6 +53,15 @@ class ControllerStud:
 
     def get_nr_studenti(self):
         return len(self.__repo_studenti)
+
+    def genereaza_studenti(self,nr):
+        for i in range(0,nr):
+            idStudent = random.randint(1,100)
+            letters = string.ascii_lowercase
+            nume = ''.join(random.choice(letters) for j in range(1,10))
+            student = Student(idStudent,nume)
+            self.__valid_studenti.valideaza(student)
+            self.__repo_studenti.store(student)
 
 class ControllerDisc:
 
