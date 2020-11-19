@@ -11,14 +11,15 @@ if __name__ == '__main__':
 
     valid_studenti = ValidatorStud()
     repo_studenti = RepositoryStud()
-    controller_studenti = ControllerStud(repo_studenti,valid_studenti)
+    repo_note = RepositoryNote()
+    controller_studenti = ControllerStud(repo_studenti,valid_studenti,repo_note)
 
     valid_discipline = ValidatorDisc()
     repo_discipline = RepositoryDisc()
     controller_discipline = ControllerDisc(repo_discipline,valid_discipline)
 
     valid_note = ValidatorNota()
-    repo_note = RepositoryNote()
+    
     controller_note = ControllerNote(repo_note,valid_note,repo_studenti,repo_discipline)
 
     consoleMain = uiMain(controller_studenti,controller_discipline,controller_note)
