@@ -186,3 +186,12 @@ class RepositoryNote:
 
     def get_all(self):
         return self.__elems[:]
+
+    def get_all_disc(self,idDisciplina):
+        lista = []
+        for nota in self.__elems:
+            if nota.get_idDisciplina() == idDisciplina:
+                lista.append(nota)
+        return lista
+
+    

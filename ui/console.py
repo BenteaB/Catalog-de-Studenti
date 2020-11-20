@@ -266,21 +266,86 @@ class uiCatalog:
             else:
                 print('Comanda invalida!')
 
+
+class uiStatistici:
+
+    def __init__(self,controller_note):
+        self.__controller_note = controller_note
+        self.__comenzi = {
+            "lista_disciplina_note":self.__ui_disc_note,
+            "lista_disciplina_nume":self.__ui_disc_nume
+        }
+        self.__meniu = {
+            '• lista_disciplina_note => Afisarea listei de studenti si a notelor lor la o disciplina ordonata descrescator dupa nota',
+            '• lista_disciplina_nume => Afisarea listei de studenti si a notelor lor la o disciplina ordonata alfabetic dupa nume',
+            '• exit => Inchide sub-meniul'
+        }
+
+    def __ui_disc_note(self):
+        idDisciplina = int(input("Introduceti id-ul disciplinei pentru care se genereaza lista: "))
+        lista = self.__controller_note.get_note_disc(idDisciplina)
+        lista,nume = self.__controller_note.sorteaza_desc_nota(lista)
+
+        if len(lista) == 0:
+            print('Nu exista note la aceasta disciplina!')
+            return
+        lung = len(lista)
+        for i in range(0,lung):
+            print(nume[i],lista[i].get_punctaj())
+
+    def __ui_disc_nume(self):
+        idDisciplina = int(input("Introduceti id-ul disciplinei pentru care se genereaza lista: "))
+        lista = self.__controller_note.get_note_disc(idDisciplina)
+        lista,nume = self.__controller_note.sorteaza_alf_nume(lista)
+
+        if len(lista) == 0:
+            print('Nu exista note la aceasta disciplina!')
+            return
+        lung = len(lista)
+        for i in range(0,lung):
+            print(nume[i],lista[i].get_punctaj())
+
+    def run(self):
+        while True:
+            print("\n******** Statistici ********")
+            for op in self.__meniu:
+                print(op)
+            print('***************************')
+
+            cmd = input("\nDati comanda: ")
+            if cmd == 'exit':
+                print('\nSe va iesi din sub-meniu!\n')
+                return
+            if cmd in self.__comenzi:
+                try:
+                    self.__comenzi[cmd]()
+                except ValueError:
+                    print('Valoare numerica invalida!')
+                except ValidationException as ve:
+                    print(ve)
+                except RepoException as re:
+                    print(re)
+            else:
+                print('Comanda invalida!')
+
 class uiMain:
 
     def __init__(self,controller_studenti,controller_discipline,controller_note):
         self.__ui_student = uiStudent(controller_studenti)
         self.__ui_disciplina = uiDisciplina(controller_discipline)
         self.__ui_catalog = uiCatalog(controller_note)
+        self.__ui_statistici = uiStatistici(controller_note)
         self.__comenzi = {
             '1':self.__ui_student.run,
             '2':self.__ui_disciplina.run,
-            '3':self.__ui_catalog.run
+            '3':self.__ui_catalog.run,
+            '4':self.__ui_statistici.run
         }
         self.__meniu = [
             '1. Meniu Studenti',
             '2. Meniu Discipline',
             '3. Meniu Catalog',
+            '4. Meniu Statistici',
             'exit. Inchide Aplicatia'
         ]
 
