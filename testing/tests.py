@@ -145,7 +145,8 @@ class Tests:
         #add_student
         repo_studenti = RepositoryStud()
         validator_studenti = ValidatorStud()
-        controller_studenti = ControllerStud(repo_studenti,validator_studenti)
+        repo_note = RepositoryNote()
+        controller_studenti = ControllerStud(repo_studenti,validator_studenti,repo_note)
         idStudent = 20
         nume = 'daria'
         controller_studenti.add_student(idStudent,nume)
@@ -455,7 +456,7 @@ class Tests:
         self.__run_domain_tests()
         self.__run_validation_tests()
         self.__run_repository_student_tests()
-        #self.__run_controller_student_tests()
+        self.__run_controller_student_tests()
         self.__run_repository_disciplina_tests()
         self.__run_controller_disciplina_tests()
         self.__run_repository_note_tests()
