@@ -141,3 +141,45 @@ class ControllerNote:
     def get_nr_note(self):
         return len(self.__repo_note)
 
+    def get_note_disc(self,idDisciplina):
+        return self.__repo_note.get_all_disc(idDisciplina)
+
+    def sorteaza_desc_nota(self,lista):
+        lung = len(lista)
+
+        nume_studenti = []
+        for i in range(0,lung):
+            idStudent = lista[i].get_idStudent()
+            key_stud = Student(idStudent,'')
+            nume_studenti.append(self.__repo_studenti.search(key_stud).get_nume())
+
+        for i in range(0,lung-1):
+            for j in range(i,lung):
+                if lista[i].get_punctaj() < lista[j].get_punctaj():
+                    aux = lista[i]
+                    lista[i] = lista[j]
+                    lista[j] = aux
+                    aux = nume_studenti[i]
+                    nume_studenti[i] = nume_studenti[j]
+                    nume_studenti[j] = aux
+        return lista,nume_studenti
+
+    def sorteaza_alf_nume(self,lista):
+        lung = len(lista)
+
+        nume_studenti = []
+        for i in range(0,lung):
+            idStudent = lista[i].get_idStudent()
+            key_stud = Student(idStudent,'')
+            nume_studenti.append(self.__repo_studenti.search(key_stud).get_nume())
+
+        for i in range(0,lung-1):
+            for j in range(i,lung):
+                if nume_studenti[i] > nume_studenti[j]:
+                    aux = lista[i]
+                    lista[i] = lista[j]
+                    lista[j] = aux
+                    aux = nume_studenti[i]
+                    nume_studenti[i] = nume_studenti[j]
+                    nume_studenti[j] = aux
+        return lista,nume_studenti

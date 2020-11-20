@@ -449,6 +449,47 @@ class Tests:
         result_nota = controller_note.cauta_nota(key_nota)
         assert result_nota.get_punctaj() == 3.5
 
+    def __run_controller_statistici_tests(self):
+        repo_studenti = RepositoryStud()
+        student = Student(1,'bogdan')
+        repo_studenti.store(student)
+        student = Student(2,'alex')
+        repo_studenti.store(student)
+
+        repo_discipline = RepositoryDisc()
+        disciplina = Disciplina(1,'matematica','prof1')
+        repo_discipline.store(disciplina)
+        disciplina = Disciplina(2,'informatica','prof2')
+        repo_discipline.store(disciplina)
+
+        repo_note = RepositoryNote()
+        valid_note = ValidatorNota()
+        nota1 = Nota(1,1,1,9.5)
+        repo_note.store(nota1)
+        nota2 = Nota(2,1,2,7.8)
+        repo_note.store(nota2)
+        nota3 = Nota(3,2,1,3.5)
+        repo_note.store(nota3)
+        nota4 = Nota(4,2,2,10)
+        repo_note.store(nota4)
+
+        controller_note = ControllerNote(repo_note,valid_note,repo_studenti,repo_discipline)
+
+        #sortare desc dupa nota
+        idDisciplina = 1
+        lista = controller_note.get_note_disc(idDisciplina)
+        lista = controller_note.sorteaza_desc_nota(lista)
+        assert lista[0] == nota1
+        assert lista[1] == nota3
+        
+        #sortare alfabetica dupa nume
+        idDisciplina = 2
+        lista = controller_note.get_note_disc(idDisciplina)
+        lista = controller_note.sorteaza_alf_nume(lista)
+        assert lista[0] == nota2
+        assert lista[1] == nota4
+
+
     def run_all_tests(self):
         """
         Functie ce apeleaza toate functiile de test
@@ -461,3 +502,4 @@ class Tests:
         self.__run_controller_disciplina_tests()
         self.__run_repository_note_tests()
         self.__run_controller_note_tests()
+        #self.__run_controller_statistici_tests()
