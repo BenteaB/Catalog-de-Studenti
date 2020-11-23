@@ -450,6 +450,9 @@ class Tests:
         assert result_nota.get_punctaj() == 3.5
 
     def __run_statistici_tests(self):
+        """
+        Functie de test pentru statistici
+        """
         repo_studenti = RepositoryStud()
         student = Student(1,'bogdan')
         repo_studenti.store(student)
@@ -522,7 +525,6 @@ class Tests:
         assert sorted_list[2].get_nume_stud() == 'alex'
         assert sorted_list[3].get_nume_stud() == 'tudor'
         assert sorted_list[4].get_nume_stud() == 'andrei'
-
 
     def run_all_tests(self):
         """
