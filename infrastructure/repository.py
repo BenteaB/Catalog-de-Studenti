@@ -61,6 +61,9 @@ class RepositoryStud:
         return self.__elems[:]
 
     def get_id_studenti(self):
+        """
+        Returneaza o lista cu id-urile studentilor din repository
+        """
         lista_id = []
         studenti = self.get_all()
         for stud in studenti:
@@ -186,6 +189,9 @@ class RepositoryNote:
                 return
 
     def remove_stud(self,idStudent):
+        """
+        Sterge notele unui student care se doreste a fi sters
+        """
         for i in range(len(self.__elems)):
             if self.__elems[i].get_idStudent() == idStudent:
                 del self.__elems[i]

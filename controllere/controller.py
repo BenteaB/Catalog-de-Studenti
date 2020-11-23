@@ -55,6 +55,10 @@ class ControllerStud:
         return len(self.__repo_studenti)
 
     def genereaza_studenti(self,nr):
+        """
+        Functia genereaza random si stocheaza 'nr' studenti
+        nr - numar natural
+        """
         for i in range(0,nr):
             idStudent = random.randint(1,100)
             letters = string.ascii_lowercase
@@ -115,23 +119,47 @@ class ControllerDisc:
 class ControllerNote:
 
     def __init__(self,repo_note,validator_note,repo_studenti,repo_discipline):
+        """
+        Initializare
+        repo_note - obiect de tip RepositoryNote()
+        validator_note - obiect de tip ValidatorNote()
+        repo_studenti - obiect de tip RepositoryStudenti()
+        repo_discipline - obiect de tip RepositoryDiscipline()
+        """
         self.__repo_note = repo_note
         self.__valid_note = validator_note
         self.__repo_studenti = repo_studenti
         self.__repo_discipline = repo_discipline
 
     def add_nota(self,idNota,idStudent,idDisciplina,punctaj):
+        """
+        Adauga o nota
+        idNota, idStudent, idDisciplina - numar natural
+        punctaj - numar real pozitiv
+        """
         nota = Nota(idNota,idStudent,idDisciplina,punctaj)
         self.__valid_note.valideaza(nota,self.__repo_studenti,self.__repo_discipline)
         self.__repo_note.store(nota)
 
     def del_nota(self,key_nota):
+        """
+        Sterge o nota
+        key_nota - obiect de tip Nota()
+        """
         self.__repo_note.remove(key_nota)
 
     def cauta_nota(self,key_nota):
+        """
+        Cauta o nota
+        key_nota - obiect de tip Nota()
+        """
         return self.__repo_note.search(key_nota)
 
     def modifica_nota(self,nota):
+        """
+        Modifica o nota
+        nota - obiect de tip Nota()
+        """
         self.__valid_note.valideaza(nota,self.__repo_studenti,self.__repo_discipline)
         self.__repo_note.update(nota)
 
@@ -159,14 +187,26 @@ class ControllerNote:
         return lista
 
     def sorteaza_desc_nota(self,lista):
+        """
+        Sorteaza o lista de studenti descrescator in functie de nota
+        lista - lista ce contine obiecte de tip StudentNotaDTO()
+        """
         sorted_list = sorted(lista, key = lambda stud_nota: stud_nota.get_punctaj(),reverse=True)
         return sorted_list
 
     def sorteaza_alf_nume(self,lista):
+        """
+        Sorteaza o lista de studenti alfabetic in functie de nume
+        lista - lista ce contine obiecte de tip StudentNotaDTO()
+        """
         sorted_list = sorted(lista, key = lambda stud_nota: stud_nota.get_nume_stud())
         return sorted_list
 
     def get_nr_note_stud(self,idStudent):
+        """
+        Returneaza numarul de note pe care le are un student
+        idStudent - numar natural
+        """
         note = self.get_note()
         lista_disc = []
         for elem in note:
@@ -176,6 +216,10 @@ class ControllerNote:
         return len(lista_disc)
 
     def get_medie_stud(self,idStudent):
+        """
+        Returneaza media unui student
+        idStudent - numar natural
+        """
         note = self.get_note()
         medie = 0.0
         nr_disc = self.get_nr_note_stud(idStudent)
@@ -186,6 +230,10 @@ class ControllerNote:
         return medie
 
     def get_medii_stud(self):
+        """
+        Returneaza o lista cu mediile fiecarui student
+        Post-conditii: lista contine obiecte de tip StudentMedieDTO()
+        """
         lista_medii = []
         id_studenti = self.__repo_studenti.get_id_studenti()
 
