@@ -1,6 +1,6 @@
 import random
 import string
-from domain.entities import Disciplina, Student, Nota
+from domain.entities import Disciplina, Student, Nota, StudentMedieDTO, StudentNotaDTO
 
 class ControllerStud:
     
@@ -142,44 +142,58 @@ class ControllerNote:
         return len(self.__repo_note)
 
     def get_note_disc(self,idDisciplina):
-        return self.__repo_note.get_all_disc(idDisciplina)
+        """
+        Creeaza o lista cu studentii si notele lor la o anumita disciplina
+        idDisciplina - numar natural
+        Returneaza o lista de obiecte de tip StudentNotaDTO
+        """
+        lista = []
+        note = self.__repo_note.get_all()
+        for nota in note:
+            if nota.get_idDisciplina() == idDisciplina:
+                idStudent = nota.get_idStudent()
+                key_stud = Student(idStudent,'')
+                nume_student = self.__repo_studenti.search(key_stud).get_nume()
+                stud_nota = StudentNotaDTO(nume_student,nota.get_punctaj())
+                lista.append(stud_nota)
+        return lista
 
     def sorteaza_desc_nota(self,lista):
-        lung = len(lista)
-
-        nume_studenti = []
-        for i in range(0,lung):
-            idStudent = lista[i].get_idStudent()
-            key_stud = Student(idStudent,'')
-            nume_studenti.append(self.__repo_studenti.search(key_stud).get_nume())
-
-        for i in range(0,lung-1):
-            for j in range(i,lung):
-                if lista[i].get_punctaj() < lista[j].get_punctaj():
-                    aux = lista[i]
-                    lista[i] = lista[j]
-                    lista[j] = aux
-                    aux = nume_studenti[i]
-                    nume_studenti[i] = nume_studenti[j]
-                    nume_studenti[j] = aux
-        return lista,nume_studenti
+        sorted_list = sorted(lista, key = lambda stud_nota: stud_nota.get_punctaj(),reverse=True)
+        return sorted_list
 
     def sorteaza_alf_nume(self,lista):
-        lung = len(lista)
+        sorted_list = sorted(lista, key = lambda stud_nota: stud_nota.get_nume_stud())
+        return sorted_list
 
-        nume_studenti = []
-        for i in range(0,lung):
-            idStudent = lista[i].get_idStudent()
-            key_stud = Student(idStudent,'')
-            nume_studenti.append(self.__repo_studenti.search(key_stud).get_nume())
+    def get_nr_note_stud(self,idStudent):
+        note = self.get_note()
+        lista_disc = []
+        for elem in note:
+            if elem.get_idStudent() == idStudent:
+                if elem.get_idDisciplina() not in lista_disc:
+                    lista_disc.append(elem.get_idDisciplina())
+        return len(lista_disc)
 
-        for i in range(0,lung-1):
-            for j in range(i,lung):
-                if nume_studenti[i] > nume_studenti[j]:
-                    aux = lista[i]
-                    lista[i] = lista[j]
-                    lista[j] = aux
-                    aux = nume_studenti[i]
-                    nume_studenti[i] = nume_studenti[j]
-                    nume_studenti[j] = aux
-        return lista,nume_studenti
+    def get_medie_stud(self,idStudent):
+        note = self.get_note()
+        medie = 0.0
+        nr_disc = self.get_nr_note_stud(idStudent)
+        for elem in note:
+            if elem.get_idStudent() == idStudent:
+                medie += elem.get_punctaj()
+        medie /= nr_disc
+        return medie
+
+    def get_medii_stud(self):
+        lista_medii = []
+        id_studenti = self.__repo_studenti.get_id_studenti()
+
+        for id in id_studenti:
+            key_stud = Student(id,'')
+            stud = self.__repo_studenti.search(key_stud)
+            nume_stud = stud.get_nume()
+            medie_stud = self.get_medie_stud(id)
+            stud_medie = StudentMedieDTO(nume_stud,medie_stud)
+            lista_medii.append(stud_medie)
+        return lista_medii

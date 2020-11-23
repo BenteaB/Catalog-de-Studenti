@@ -1,9 +1,8 @@
-from typing import Collection
 from controllere.controller import ControllerNote, ControllerStud,ControllerDisc
 from infrastructure.repository import RepositoryNote, RepositoryStud,RepositoryDisc
 from validation.validators import ValidatorNota, ValidatorStud,ValidatorDisc
 from testing.tests import Tests
-from ui.console import uiMain, uiStudent, uiDisciplina
+from ui.console import uiMain
 
 if __name__ == '__main__':
     tests = Tests()
