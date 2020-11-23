@@ -60,6 +60,14 @@ class RepositoryStud:
     def get_all(self):
         return self.__elems[:]
 
+    def get_id_studenti(self):
+        lista_id = []
+        studenti = self.get_all()
+        for stud in studenti:
+            if stud.get_idStudent() not in lista_id:
+                lista_id.append(stud.get_idStudent())
+        return lista_id
+
 class RepositoryDisc:
 
     def __init__(self):
@@ -187,11 +195,5 @@ class RepositoryNote:
     def get_all(self):
         return self.__elems[:]
 
-    def get_all_disc(self,idDisciplina):
-        lista = []
-        for nota in self.__elems:
-            if nota.get_idDisciplina() == idDisciplina:
-                lista.append(nota)
-        return lista
 
     

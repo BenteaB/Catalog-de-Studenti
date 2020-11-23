@@ -117,3 +117,27 @@ class Nota:
         other - obicet de tip nota
         """
         return self.__idNota == other.__idNota
+
+class StudentNotaDTO:
+    
+    def __init__(self,nume_stud,punctaj):
+        self.__nume_stud = nume_stud
+        self.__punctaj = punctaj
+
+    def get_nume_stud(self):
+        return self.__nume_stud
+    
+    def get_punctaj(self):
+        return self.__punctaj
+
+class StudentMedieDTO:
+
+    def __init__(self,nume_stud,medie):
+        self.__nume_stud = nume_stud
+        self.__medie = medie
+
+    def get_nume_stud(self):
+        return self.__nume_stud
+    
+    def get_medie(self):
+        return self.__medie

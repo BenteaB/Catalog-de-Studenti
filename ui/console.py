@@ -266,44 +266,48 @@ class uiCatalog:
             else:
                 print('Comanda invalida!')
 
-
 class uiStatistici:
 
     def __init__(self,controller_note):
         self.__controller_note = controller_note
         self.__comenzi = {
             "lista_disciplina_note":self.__ui_disc_note,
-            "lista_disciplina_nume":self.__ui_disc_nume
+            "lista_disciplina_nume":self.__ui_disc_nume,
+            "lista_medii":self.__ui_medii_20p
         }
         self.__meniu = {
             '• lista_disciplina_note => Afisarea listei de studenti si a notelor lor la o disciplina ordonata descrescator dupa nota',
             '• lista_disciplina_nume => Afisarea listei de studenti si a notelor lor la o disciplina ordonata alfabetic dupa nume',
+            '• lista_medii => Afisarea listei cu primii 20{} studenti in ordinea mediilor'.format('%'),
             '• exit => Inchide sub-meniul'
         }
 
     def __ui_disc_note(self):
         idDisciplina = int(input("Introduceti id-ul disciplinei pentru care se genereaza lista: "))
         lista = self.__controller_note.get_note_disc(idDisciplina)
-        lista,nume = self.__controller_note.sorteaza_desc_nota(lista)
+        sorted_list = self.__controller_note.sorteaza_desc_nota(lista)
 
-        if len(lista) == 0:
-            print('Nu exista note la aceasta disciplina!')
-            return
-        lung = len(lista)
-        for i in range(0,lung):
-            print(nume[i],lista[i].get_punctaj())
+        for elem in sorted_list:
+            print("Studentul",elem.get_nume_stud(),"cu nota",elem.get_punctaj())
 
     def __ui_disc_nume(self):
         idDisciplina = int(input("Introduceti id-ul disciplinei pentru care se genereaza lista: "))
         lista = self.__controller_note.get_note_disc(idDisciplina)
-        lista,nume = self.__controller_note.sorteaza_alf_nume(lista)
+        sorted_list = self.__controller_note.sorteaza_alf_nume(lista)
 
-        if len(lista) == 0:
-            print('Nu exista note la aceasta disciplina!')
-            return
-        lung = len(lista)
-        for i in range(0,lung):
-            print(nume[i],lista[i].get_punctaj())
+        for elem in sorted_list:
+            print("Studentul",elem.get_nume_stud(),"cu nota",elem.get_punctaj())
+
+    def __ui_medii_20p(self):
+        print("Primii 20 la suta studenti sunt: ")
+        lista_medii = self.__controller_note.get_medii_stud()
+        sorted_list = sorted(lista_medii, key=lambda stud_medie: stud_medie.get_medie(),reverse=True)
+        
+        primii = max(len(sorted_list)/5,1)
+        sorted_list = sorted_list[:primii]
+
+        for elem in sorted_list:
+            print("Studentul",elem.get_nume_stud(),"cu media",elem.get_medie())
 
     def run(self):
         while True:
