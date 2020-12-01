@@ -268,17 +268,20 @@ class uiCatalog:
 
 class uiStatistici:
 
-    def __init__(self,controller_note):
+    def __init__(self,controller_note,controller_studenti):
         self.__controller_note = controller_note
+        self.__controller_studenti = controller_studenti
         self.__comenzi = {
             "lista_disciplina_note":self.__ui_disc_note,
             "lista_disciplina_nume":self.__ui_disc_nume,
-            "lista_medii":self.__ui_medii_20p
+            "lista_medii":self.__ui_medii_20p,
+            "lista_criteriu":self.__ui_note_criteriu
         }
         self.__meniu = {
             '• lista_disciplina_note => Afisarea listei de studenti si a notelor lor la o disciplina ordonata descrescator dupa nota',
             '• lista_disciplina_nume => Afisarea listei de studenti si a notelor lor la o disciplina ordonata alfabetic dupa nume',
             '• lista_medii => Afisarea listei cu primii 20{} studenti in ordinea mediilor'.format('%'),
+            '• lista_criteriu => Afisarea listei cu studentii care au atât o notă <5, cât și o notă >7',
             '• exit => Inchide sub-meniul'
         }
 
@@ -303,11 +306,28 @@ class uiStatistici:
         lista_medii = self.__controller_note.get_medii_stud()
         sorted_list = sorted(lista_medii, key=lambda stud_medie: stud_medie.get_medie(),reverse=True)
         
-        primii = max(len(sorted_list)/5,1)
+        primii = int(max(len(sorted_list)/5,1))
         sorted_list = sorted_list[:primii]
 
         for elem in sorted_list:
             print("Studentul",elem.get_nume_stud(),"cu media",elem.get_medie())
+
+    def __ui_note_criteriu(self):
+        lista_nume = []
+        lista_id = self.__controller_studenti.get_id_studenti()
+        for id in lista_id:
+            if self.__controller_note.cauta_nota_sub5(id) == True and self.__controller_note.cauta_nota_peste7(id):
+                key_stud = Student(id,'')
+                result_stud = self.__controller_studenti.cauta_student(key_stud)
+                lista_nume.append(result_stud.get_nume())
+        
+        if len(lista_nume) == 0:
+            print("Nu exista studenti cu note ce respecta acest criteriu!")
+        else:
+            print("Studentii care au note ce respecta acest criteriu sunt:")
+            for nume in lista_nume:
+                print('-',nume)
+
 
     def run(self):
         while True:
@@ -338,7 +358,7 @@ class uiMain:
         self.__ui_student = uiStudent(controller_studenti)
         self.__ui_disciplina = uiDisciplina(controller_discipline)
         self.__ui_catalog = uiCatalog(controller_note)
-        self.__ui_statistici = uiStatistici(controller_note)
+        self.__ui_statistici = uiStatistici(controller_note,controller_studenti)
         self.__comenzi = {
             '1':self.__ui_student.run,
             '2':self.__ui_disciplina.run,

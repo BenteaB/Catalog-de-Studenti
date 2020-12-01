@@ -1,0 +1,2 @@
+1;informatica;prof1
+2;matematica;prof2
