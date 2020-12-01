@@ -5,6 +5,7 @@ from validation.validators import ValidatorNota, ValidatorStud,ValidatorDisc
 from ui.console import uiMain
 
 if __name__ == '__main__':
+    
     #tests = Tests()
     #tests.run_all_tests()
 
