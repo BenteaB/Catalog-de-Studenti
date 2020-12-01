@@ -1,7 +1,7 @@
 from controllere.controller import ControllerNote, ControllerStud,ControllerDisc
 from infrastructure.repository import RepositoryFileDisc, RepositoryFileNote, RepositoryFileStud, RepositoryNote, RepositoryStud,RepositoryDisc
 from validation.validators import ValidatorNota, ValidatorStud,ValidatorDisc
-from testing.tests import Tests 
+#from testing.tests import Tests 
 from ui.console import uiMain
 
 if __name__ == '__main__':
