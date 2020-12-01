@@ -67,6 +67,9 @@ class ControllerStud:
             self.__valid_studenti.valideaza(student)
             self.__repo_studenti.store(student)
 
+    def get_id_studenti(self):
+        return self.__repo_studenti.get_id_studenti()
+
 class ControllerDisc:
 
     def __init__(self,repo_discipline,validator_discipline):
@@ -245,3 +248,17 @@ class ControllerNote:
             stud_medie = StudentMedieDTO(nume_stud,medie_stud)
             lista_medii.append(stud_medie)
         return lista_medii
+
+    def cauta_nota_sub5(self,idStudent):
+        lista_note = self.get_note()
+        for nota in lista_note:
+            if nota.get_idStudent() == idStudent and nota.get_punctaj() < 5:
+                return True
+        return False
+
+    def cauta_nota_peste7(self,idStudent):
+        lista_note = self.get_note()
+        for nota in lista_note:
+            if nota.get_idStudent() == idStudent and nota.get_punctaj() > 7:
+                return True
+        return False
