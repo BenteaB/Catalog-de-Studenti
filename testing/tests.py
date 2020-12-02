@@ -5,6 +5,71 @@ from infrastructure.repository import RepositoryDisc, RepositoryNote, Repository
 from controllere.controller import ControllerStud,ControllerDisc,ControllerNote
 import unittest
 
+class TestCaseDomain(unittest.TestCase):
+    def setUp(self):
+        self.student1 = Student(1,'bogdan')
+        self.student2 = Student(1,'alex')
+        self.disciplina1 = Disciplina(1,'informatica','prof1')
+        self.disciplina2 = Disciplina(1,'matematica','prof2')
+        self.nota1 = Nota(1,1,1,5.5)
+        self.nota2 = Nota(1,2,2,8.6)
+
+    def tearDown(self):
+        unittest.TestCase.tearDown(self)
+
+    def testStudent(self):
+        self.assertEquals(self.student1.get_idStudent(),1)
+        self.assertEquals(self.student1.get_nume(),'bogdan')
+        self.assertEquals(str(self.student1),'1 bogdan')
+        self.assertEquals(self.student1,self.student2)
+
+    def testDisciplina(self):
+        self.assertEquals(self.disciplina1.get_idDisciplina(),1)
+        self.assertEquals(self.disciplina1.get_nume(),'informatica')
+        self.assertEquals(self.disciplina1.get_profesor(),'prof1')
+        self.assertEquals(str(self.disciplina1),'1 informatica prof1')
+        self.assertEquals(self.disciplina1,self.disciplina2)
+
+    def testNota(self):
+        self.assertEquals(self.nota1.get_idNota(),1)
+        self.assertEquals(self.nota1.get_idStudent(),1)
+        self.assertEquals(self.nota1.get_idDisciplina(),1)
+        self.assertEquals(self.nota1.get_punctaj(),5.5)
+        self.assertEquals(str(self.nota1),'1 1 1 5.5')
+        self.assertEquals(self.nota1,self.nota2)
+
+class TestCaseValidators(unittest.TestCase):
+    def setUp(self):
+        self.valid_stud = ValidatorStud()
+        self.student_valid = Student(1,'bogdan')
+        self.student_invalid = Student(-23,'')
+        self.valid_disc = ValidatorDisc()
+        self.disciplina_valida = Disciplina(2,'informatica','prof')
+        self.disciplina_invalida = Disciplina(-59,'','')
+        self.valid_nota = ValidatorNota()
+        self.nota_valida = Nota(3,1,2,7.5)
+        self.nota_invalida = Nota(-1,-25,-28,0.5)
+
+        self.repo_stud = RepositoryStud()
+        self.repo_stud.store(self.student_valid)
+        self.repo_disc = RepositoryDisc()
+        self.repo_disc.store(self.disciplina_valida)
+    
+    def tearDown(self):
+        unittest.TestCase.tearDown(self)
+
+    def testStudentValidator(self):
+        self.assertEquals(self.valid_stud.valideaza(self.student_valid),None)
+        self.assertRaisesRegex(ValidationException,'id invalid!\nnume invalid!\n',self.valid_stud.valideaza,self.student_invalid)
+    
+    def testDisciplinaValidator(self):
+        self.assertEquals(self.valid_disc.valideaza(self.disciplina_valida),None)
+        self.assertRaisesRegex(ValidationException,'id invalid!\nnume invalid!\nprofesor invalid!\n',self.valid_disc.valideaza,self.disciplina_invalida)
+    
+    def testNotaValidator(self):
+        self.assertEquals(self.valid_nota.valideaza(self.nota_valida,self.repo_stud,self.repo_disc),None)
+        self.assertRaisesRegex(ValidationException,'id invalid!\nid student invalid!\nid disciplina invalid!\npunctaj invalid!\n',self.valid_nota.valideaza,self.nota_invalida,self.repo_stud,self.repo_disc)
+
 class TestCaseStudentRepository(unittest.TestCase):
     def setUp(self):
         self.repo = RepositoryStud()
