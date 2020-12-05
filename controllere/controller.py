@@ -139,6 +139,7 @@ class ControllerNote:
         Adauga o nota
         idNota, idStudent, idDisciplina - numar natural
         punctaj - numar real pozitiv
+        Post-conditions: ridica ValidationException daca nota nu este valida
         """
         nota = Nota(idNota,idStudent,idDisciplina,punctaj)
         self.__valid_note.valideaza(nota,self.__repo_studenti,self.__repo_discipline)
