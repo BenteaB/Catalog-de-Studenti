@@ -67,6 +67,16 @@ class ControllerStud:
             self.__valid_studenti.valideaza(student)
             self.__repo_studenti.store(student)
 
+    def genereaza_studenti_recursiv(self,nr):
+        idStudent = random.randint(1,100)
+        letters = string.ascii_lowercase
+        nume = ''.join(random.choice(letters) for j in range(1,10))
+        student = Student(idStudent,nume)
+        self.__valid_studenti.valideaza(student)
+        self.__repo_studenti.store(student)
+        if nr>1:
+            self.genereaza_studenti_recursiv(nr-1)
+
     def get_id_studenti(self):
         return self.__repo_studenti.get_id_studenti()
 
@@ -256,6 +266,16 @@ class ControllerNote:
             if nota.get_idStudent() == idStudent and nota.get_punctaj() < 5:
                 return True
         return False
+
+    def cauta_nota_sub5_recursiv(self,idStudent,lista_note):
+        if lista_note != []:
+            nota = lista_note.pop()
+            if nota.get_idStudent() == idStudent and nota.get_punctaj() < 5:
+                return True or self.cauta_nota_sub5_recursiv(idStudent,lista_note)
+            else:
+                return False or self.cauta_nota_sub5_recursiv(idStudent,lista_note)
+        else:
+            return False
 
     def cauta_nota_peste7(self,idStudent):
         lista_note = self.get_note()
