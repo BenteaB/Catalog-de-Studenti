@@ -1,7 +1,7 @@
-from domain.entities import Disciplina, Student, Nota
+from domain.entities import Disciplina, Student, Nota, StudentNotaDTO
 from validation.validators import ValidatorDisc, ValidatorStud, ValidatorNota
 from errors.exceptions import ValidationException,RepoException
-from infrastructure.repository import RepositoryDisc, RepositoryNote, RepositoryStud
+from infrastructure.repository import RepositoryDisc, RepositoryFileDisc, RepositoryFileNote, RepositoryFileStud, RepositoryNote, RepositoryStud
 from controllere.controller import ControllerStud,ControllerDisc,ControllerNote
 import unittest
 
@@ -295,13 +295,32 @@ class TestCaseNoteController(unittest.TestCase):
         self.ctr.add_nota(10,1,7,9.8)
         self.ctr.add_nota(20,2,7,8.5)
 
+        self.lista_stud_nota = []
+        stud_nota1 = StudentNotaDTO('bogdan',9.8)
+        stud_nota2 = StudentNotaDTO('alex',8.5)
+        self.lista_stud_nota.append(stud_nota1)
+        self.lista_stud_nota.append(stud_nota2)
+        self.valid1 = []
+        self.valid1.append(stud_nota1)
+        self.valid1.append(stud_nota2)
+        self.valid2 = []
+        self.valid2.append(stud_nota2)
+        self.valid2.append(stud_nota1)
+
     def tearDown(self):
         unittest.TestCase.tearDown(self)
 
-    def testAdauga(self):
+    def testAdauga_white(self):
         self.assertEquals(self.ctr.get_nr_note(),2)
-        self.assertRaises(ValidationException,self.ctr.add_nota,-1,0,0,0)
+        self.ctr.add_nota(1,1,7,9.8)
+        self.assertEquals(self.ctr.get_nr_note(),3)
+        self.assertRaises(ValidationException,self.ctr.add_nota,12,1,7,0.5)
         self.assertRaises(RepoException,self.ctr.add_nota,10,1,7,10)
+
+    def testAdauga_black(self):
+        self.assertRaises(ValidationException,self.ctr.add_nota,-1,0,0,0)
+        self.ctr.add_nota(1,1,7,9.8)
+        self.assertEquals(self.ctr.get_nr_note(),3)
 
     def testDelete(self):
         self.assertEquals(self.ctr.get_nr_note(),2)
@@ -331,3 +350,43 @@ class TestCaseNoteController(unittest.TestCase):
         self.assertRaises(ValidationException,self.ctr.modifica_nota,key_nota)
         key_nota = Nota(50,2,7,6.2)
         self.assertRaises(RepoException,self.ctr.modifica_nota,key_nota)
+    
+    def testSorteazaDescNota(self):
+        self.lista_stud_nota = self.ctr.sorteaza_desc_nota(self.lista_stud_nota)
+        self.assertEquals(self.lista_stud_nota,self.valid1)
+
+    def testSorteazaAlfNume(self):
+        self.lista_stud_nota = self.ctr.sorteaza_alf_nume(self.lista_stud_nota)
+        self.assertEquals(self.lista_stud_nota,self.valid2)
+
+class TestCaseLoadToFile(unittest.TestCase):
+    def setUp(self):
+        self.repo_file_stud = RepositoryFileStud("testing/test_stud.txt")
+        self.repo_file_disc = RepositoryFileDisc('testing/test_disc.txt')
+        self.repo_file_note = RepositoryFileNote('testing/test_note.txt')
+
+    def tearDown(self):
+        self.repo_file_stud.remove_all()
+        self.repo_file_disc.remove_all()
+        self.repo_file_note.remove_all()
+
+    def testStudFile(self):
+        self.assertEquals(len(self.repo_file_stud),0)
+        self.repo_file_stud.store(Student(1,'bogdan'))
+        self.repo_file_stud.store(Student(2,'marius'))
+        self.repo_file_stud.store(Student(3,'alex'))
+        self.assertEquals(len(self.repo_file_stud),3)
+    
+    def testDiscFile(self):
+        self.assertEquals(len(self.repo_file_disc),0)
+        self.repo_file_disc.store(Disciplina(1,'info','p1'))
+        self.repo_file_disc.store(Disciplina(2,'mate','p2'))
+        self.repo_file_disc.store(Disciplina(3,'sport','p3'))
+        self.assertEquals(len(self.repo_file_disc),3)
+    
+    def testNoteFile(self):
+        self.assertEquals(len(self.repo_file_note),0)
+        self.repo_file_note.store(Nota(1,1,1,10))
+        self.repo_file_note.store(Nota(2,2,2,6.8))
+        self.repo_file_note.store(Nota(3,3,3,8.4))
+        self.assertEquals(len(self.repo_file_note),3)
