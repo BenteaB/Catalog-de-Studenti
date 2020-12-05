@@ -51,7 +51,8 @@ class uiStudent:
 
     def __ui_genereaza_studenti(self):
         nr_studenti = int(input("Introduceti numarul de studenti: "))
-        self.__controller_studenti.genereaza_studenti(nr_studenti)
+        #self.__controller_studenti.genereaza_studenti(nr_studenti)
+        self.__controller_studenti.genereaza_studenti_recursiv(nr_studenti)
 
     def __init__(self,controller_studenti):
         self.__controller_studenti = controller_studenti
@@ -313,14 +314,23 @@ class uiStatistici:
             print("Studentul",elem.get_nume_stud(),"cu media",elem.get_medie())
 
     def __ui_note_criteriu(self):
+        #lista_nume = []
+        #lista_id = self.__controller_studenti.get_id_studenti()
+        #for id in lista_id:
+            #if self.__controller_note.cauta_nota_sub5(id) == True and self.__controller_note.cauta_nota_peste7(id):
+                #key_stud = Student(id,'')
+                #result_stud = self.__controller_studenti.cauta_student(key_stud)
+                #lista_nume.append(result_stud.get_nume())
+        
         lista_nume = []
         lista_id = self.__controller_studenti.get_id_studenti()
         for id in lista_id:
-            if self.__controller_note.cauta_nota_sub5(id) == True and self.__controller_note.cauta_nota_peste7(id):
+            lista_note = self.__controller_note.get_note()
+            if self.__controller_note.cauta_nota_sub5_recursiv(id,lista_note) == True and self.__controller_note.cauta_nota_peste7(id):
                 key_stud = Student(id,'')
                 result_stud = self.__controller_studenti.cauta_student(key_stud)
                 lista_nume.append(result_stud.get_nume())
-        
+
         if len(lista_nume) == 0:
             print("Nu exista studenti cu note ce respecta acest criteriu!")
         else:
