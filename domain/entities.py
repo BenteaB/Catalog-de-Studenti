@@ -31,6 +31,18 @@ class Student:
         """
         return self.__idStudent == other.__idStudent
 
+    def __lt__(self,other):
+        return self.__idStudent < other.__idStudent
+
+    def __gt__(self,other):
+        return self.__idStudent > other.__idStudent
+
+    def __le__(self,other):
+        return self.__idStudent <= other.__idStudent
+
+    def __ge__(self,other):
+        return self.__idStudent >= other.__idStudent
+
 class Disciplina:
 
     def __init__(self,idDisciplina,nume,profesor):
@@ -70,6 +82,18 @@ class Disciplina:
         other - obicet de tip disciplina
         """
         return self.__idDisciplina == other.__idDisciplina
+
+    def __lt__(self,other):
+        return self.__idDisciplina < other.__idDisciplina
+
+    def __gt__(self,other):
+        return self.__idDisciplina > other.__idDisciplina
+
+    def __le__(self,other):
+        return self.__idDisciplina <= other.__idDisciplina
+
+    def __ge__(self,other):
+        return self.__idDisciplina >= other.__idDisciplina
 
 class Nota:
 
@@ -117,6 +141,18 @@ class Nota:
         other - obicet de tip nota
         """
         return self.__idNota == other.__idNota
+
+    def __lt__(self,other):
+        return self.__idNota < other.__idNota
+
+    def __gt__(self,other):
+        return self.__idNota > other.__idNota
+
+    def __le__(self,other):
+        return self.__idNota <= other.__idNota
+
+    def __ge__(self,other):
+        return self.__idNota >= other.__idNota
 
 class StudentNotaDTO:
     
