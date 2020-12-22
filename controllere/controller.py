@@ -1,6 +1,6 @@
 import random
 import string
-from utils.sortari import sorted_comb, sorted_insert
+from utils.sortari import comparare_stud, sorted_comb, sorted_insert
 from domain.entities import Disciplina, Student, Nota, StudentMedieDTO, StudentNotaDTO
 
 class ControllerStud:
@@ -214,7 +214,7 @@ class ControllerNote:
         Sorteaza o lista de studenti alfabetic in functie de nume
         lista - lista ce contine obiecte de tip StudentNotaDTO()
         """
-        sorted_list = sorted_comb(lista, key = lambda stud_nota: stud_nota.get_nume_stud())
+        sorted_list = sorted_comb(lista, cmp=comparare_stud)
         return sorted_list
 
     def get_nr_note_stud(self,idStudent):
